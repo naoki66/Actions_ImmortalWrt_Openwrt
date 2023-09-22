@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build immortalwrt OpenWrt 
+name: 编译immortalwrt X64 K6.1
 
 on:
   repository_dispatch:
