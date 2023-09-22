@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2021 P3TERX <https://p3terx.com>
+# Copyright (c) 2019-2023 P3TERX <https://p3terx.com>
 #
 # This is free software, licensed under the MIT License.
 # See /LICENSE for more information.
@@ -9,10 +9,10 @@
 # Description: Source code update checker
 #
 
-name: Update Checker
+name: immortalwrt更新检查
 
 env:
-  REPO_URL: https://github.com/coolsnowwolf/lede
+  REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: master
 
 on:
@@ -26,33 +26,33 @@ jobs:
 
     steps:
 
-    - name: Get Commit Hash
+    - name: 获取Commit Hash
       id: getHash
       run: |
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH .
         echo "::set-output name=commitHash::$(git rev-parse HEAD)"
 
-    - name: Compare Commit Hash
+    - name: 整理Commit Hash
       id: cacheHash
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: .commitHash
         key: HEAD-${{ steps.getHash.outputs.commitHash }}
 
-    - name: Save New Commit Hash
+    - name: 保存新的Commit Hash
       if: steps.cacheHash.outputs.cache-hit != 'true'
       run: |
         echo ${{ steps.getHash.outputs.commitHash }} | tee .commitHash
 
     - name: Trigger build
       if: steps.cacheHash.outputs.cache-hit != 'true'
-      uses: peter-evans/repository-dispatch@v1
+      uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.ACTIONS_TRIGGER_PAT }}
-        event-type: Source Code Update
+        event-type: 上游源码更新触发编译
 
-    - name: Delete workflow runs
-      uses: GitRML/delete-workflow-runs@main
+    - name: 删除运行记录
+      uses: naoki66/delete-workflow-runs@main
       with:
         retain_days: 1
         keep_minimum_runs: 1
