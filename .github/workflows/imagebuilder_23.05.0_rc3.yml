@@ -50,7 +50,6 @@ jobs:
 
     - name: 添加软件
       run: |
-        cd immortalwrt-imagebuilder-23.05.0-rc3-x86-64.Linux-x86_64
         wget -P /packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.2.4/luci-app-lucky_2.1.1-1_all.ipk
         wget -P /packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.2.4/luci-i18n-lucky-zh-cn_2.1.1-1_all.ipk
         wget -P /packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.2.4/lucky_2.2.4_Openwrt_x86_64.ipk
