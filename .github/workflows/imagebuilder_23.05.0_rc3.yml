@@ -126,7 +126,7 @@ jobs:
         keep_minimum_runs: 3
 
     - name: 删除旧RReleases
-      uses: dev-drprasad/delete-older-releases@main
+      uses: dev-drprasad/delete-older-releases@v0.2.1
       with:
         keep_latest: 6
         delete_tags: true
