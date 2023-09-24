@@ -66,7 +66,7 @@ jobs:
         chmod +x $DIY_P1_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
-	  
+
     - name: 更新feeds
       run: cd openwrt && ./scripts/feeds update -a
 
@@ -96,8 +96,8 @@ jobs:
         make defconfig
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
-        find dl -size -1024c -exec rm -f {} \;
-	
+        find dl -size -1024c -exec rm -f {} \;	
+
     - name: 编译固件
       id: compile
       run: |
@@ -144,7 +144,7 @@ jobs:
       run: |
         echo "release_tag=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
         touch release.txt
-	echo " immortalwrt<a href="https://github.com/immortalwrt/immortalwrt">immortalwrt</a> K6.1 immortalwrt 更新记录:" >> release.txt
+        echo " immortalwrt<a href="https://github.com/immortalwrt/immortalwrt">lede</a>immortalwrt 更新记录:" >> release.txt
         git -C openwrt log -3 --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:"更新人:%an -- %cd<br/>更新内容: %s<br/>哈希: %H "  >> release.txt        
         echo " <br/><br/><a href="https://github.com/immortalwrt/packages">packages</a>更新记录:" >> release.txt
         git -C openwrt/feeds/packages log -3 --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:"更新人:%an -- %cd<br/>更新内容: %s<br/>哈希: %H "  >> release.txt        
