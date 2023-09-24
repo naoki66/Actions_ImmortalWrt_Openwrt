@@ -21,7 +21,7 @@ on:
 
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
-  REPO_BRANCH: 'master'
+  REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: x64.config
   DIY_P1_SH: diy-part1.sh
@@ -59,6 +59,7 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
+       
     - name: 载入配置feeds
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
@@ -69,13 +70,10 @@ jobs:
     - name: 更新feeds
       run: cd openwrt && ./scripts/feeds update -a
 
-    - name: 安装feeds、更新日期
-      run: |
-       cd openwrt && ./scripts/feeds install -a
-       echo "DATE0=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
-       echo "DATE1=$(date "+%Y.%m.%d-%H:%M")" >> $GITHUB_ENV
+    - name: 安装feeds
+      run: cd openwrt && ./scripts/feeds install -a
        
-    - name: 载入配置文件、修改固件日期
+    - name: 载入配置文件，修改内核版本
       run: |
         [ -e files ] && mv files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
@@ -110,7 +108,8 @@ jobs:
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
         echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
-
+       echo "DATE0=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
+       
     - name: 检查空间
       if: (!cancelled())
       run: df -hT
@@ -151,9 +150,6 @@ jobs:
         git -C openwrt/feeds/packages log -3 --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:"更新人:%an -- %cd<br/>更新内容: %s<br/>哈希: %H "  >> release.txt        
         echo " <br/><br/><a href="https://github.com/immortalwrt/luci">luci</a>更新记录:" >> release.txt
         git -C openwrt/feeds/luci log -3 --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:"更新人:%an -- %cd<br/>更新内容: %s<br/>哈希: %H "  >> release.txt  
-        
-	[ $UPLOAD_COWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
-        [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 上传固件到release
@@ -185,4 +181,4 @@ jobs:
       if: steps.tag.outputs.status == 'success' && !cancelled()
       run: |
         echo "DATE2=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
-        curl http://www.pushplus.plus/send -X POST -H "Content-Type:application/json" -d '{"title":"GitAction编译immortalwrtX64K6.1成功！","content":" 从${{ env.DATE }}开始到${{ env.DATE2 }}编译完成！","token":"${{ secrets.PUSHPLUS_TOKEN }}","webhook":"02","channel":"cp"}'
+        curl http://www.pushplus.plus/send -X POST -H "Content-Type:application/json" -d '{"title":"GitAction编译immortalwrtX64K6.1成功！","content":" 从${{ env.DATE0 }}开始到${{ env.DATE2 }}编译完成！","token":"${{ secrets.PUSHPLUS_TOKEN }}","webhook":"02","channel":"cp"}'
