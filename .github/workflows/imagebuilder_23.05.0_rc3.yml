@@ -48,7 +48,7 @@ jobs:
         libpython3-dev qemu-utils rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip \
         vim wget xmlto xxd zlib1g-dev python3-setuptools
 
-    - name: 克隆imagebuilder源码
+    - name: 下载imagebuilder源码
       run: |
         wget https://downloads.immortalwrt.org/releases/23.05.0-rc3/targets/x86/64/immortalwrt-imagebuilder-23.05.0-rc3-x86-64.Linux-x86_64.tar.xz
         tar -J -x -f immortalwrt-imagebuilder-23.05.0-rc3-x86-64.Linux-x86_64.tar.xz
@@ -79,10 +79,8 @@ jobs:
         cd immortalwrt-imagebuilder-23.05.0-rc3-x86-64.Linux-x86_64
         make image PACKAGES="qemu-ga luci-i18n-smartdns-zh-cn luci-i18n-passwall-zh-cn luci-i18n-zerotier-zh-cn luci-i18n-ttyd-zh-cn luci-i18n-attendedsysupgrade-zh-cn luci-i18n-opkg-zh-cn luci-i18n-ddns-zh-cn ddns-scripts-dnspod luci-i18n-upnp-zh-cn luci-i18n-firewall-zh-cn luci-i18n-vlmcsd-zh-cn luci-i18n-arpbind-zh-cn luci-i18n-base-zh-cn   luci-i18n-filetransfer-zh-cn ddns-scripts-cloudflare ddns-scripts_aliyun  luci-i18n-udpxy-zh-cn luci-i18n-accesscontrol-zh-cn luci-i18n-watchcat-zh-cn bind-host luci-app-wechatpush luci-i18n-wechatpush-zh-cn lucky luci-app-lucky luci-i18n-lucky-zh-cn"
         echo "FILE_DATE=_$(date +"%Y%m%d-%H%M")" >> $GITHUB_ENV
-        echo "TIME2=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
-  
     - name: 整理文件
       id: organize
       run: |
@@ -102,6 +100,7 @@ jobs:
       run: |
         echo "release_tag=immortalwrt-23.05.0-rc3-${{ env.FILE_DATE }}" >> $GITHUB_OUTPUT
         touch release.txt
+        echo "TIME2=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 上传发布release
