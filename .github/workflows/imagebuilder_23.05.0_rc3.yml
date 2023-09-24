@@ -26,6 +26,8 @@ jobs:
         sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* adoptopenjdk* mysql* php* mongodb* dotnet* moby* snapd* || true
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
+        sudo timedatectl set-timezone "$TZ"
+
 
     - name: 显示系统情况
       run: |
@@ -33,8 +35,7 @@ jobs:
         free -h
         df -Th
         uname -a
-        echo "The timezone is $TZ"
-        echo "DATE0=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
+        echo "TIME1=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
 
     - name: 安装依赖文件
       run: |
@@ -77,17 +78,11 @@ jobs:
       run: |
         cd immortalwrt-imagebuilder-23.05.0-rc3-x86-64.Linux-x86_64
         make image PACKAGES="qemu-ga luci-i18n-smartdns-zh-cn luci-i18n-passwall-zh-cn luci-i18n-zerotier-zh-cn luci-i18n-ttyd-zh-cn luci-i18n-attendedsysupgrade-zh-cn luci-i18n-opkg-zh-cn luci-i18n-ddns-zh-cn ddns-scripts-dnspod luci-i18n-upnp-zh-cn luci-i18n-firewall-zh-cn luci-i18n-vlmcsd-zh-cn luci-i18n-arpbind-zh-cn luci-i18n-base-zh-cn   luci-i18n-filetransfer-zh-cn ddns-scripts-cloudflare ddns-scripts_aliyun  luci-i18n-udpxy-zh-cn luci-i18n-accesscontrol-zh-cn luci-i18n-watchcat-zh-cn bind-host luci-app-wechatpush luci-i18n-wechatpush-zh-cn lucky luci-app-lucky luci-i18n-lucky-zh-cn"
-        echo "The timezone is $TZ"
         echo "FILE_DATE=_$(date +"%Y%m%d-%H%M")" >> $GITHUB_ENV
+        echo "TIME2=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
-    - name: 上传bin文件夹
-      uses: actions/upload-artifact@master
-      if: steps.compile.outputs.status == 'success' 
-      with: 
-        name: immortalwrt_23.05.0-rc3-x86-64-${{ env.FILE_DATE }}
-        path: immortalwrt-imagebuilder-23.05.0-rc3-x86-64.Linux-x86_64/bin/
-    
+  
     - name: 整理文件
       id: organize
       run: |
@@ -136,7 +131,4 @@ jobs:
                
     - name: Pushplus推送通知
       if: steps.tag.outputs.status == 'success' && !cancelled()
-      run: |
-        echo "The timezone is $TZ"
-        echo "DATE2=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
-        curl http://www.pushplus.plus/send -X POST -H "Content-Type:application/json" -d '{"title":"GitAction编译immortalwrtX64K6.1成功！","content":" 从${{ env.DATE0 }}开始到${{ env.DATE2 }}编译完成！","token":"${{ secrets.PUSHPLUS_TOKEN }}","webhook":"02","channel":"cp"}'
+      run: curl http://www.pushplus.plus/send -X POST -H "Content-Type:application/json" -d '{"title":"GitAction编译immortalwrtX64K6.1成功！","content":" 从${{ env.TIME1 }}开始到${{ env.TIME2 }}编译完成！","token":"${{ secrets.PUSHPLUS_TOKEN }}","webhook":"02","channel":"cp"}'
