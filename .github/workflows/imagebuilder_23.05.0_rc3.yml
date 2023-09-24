@@ -48,7 +48,7 @@ jobs:
         sed -i 's/CONFIG_VHDX_IMAGES=y/#CONFIG_VHDX_IMAGES is not set/' .config
         #sed -i 's/CONFIG_TARGET_ROOTFS_PARTSIZE=300/CONFIG_TARGET_ROOTFS_PARTSIZE=1024/' .config
 
-        make image PACKAGES="qemu-ga luci-i18n-smartdns-zh-cn luci-i18n-passwall-zh-cn luci-i18n-zerotier-zh-cn luci-app-serverchan luci-i18n-ttyd-zh-cn luci-i18n-attendedsysupgrade-zh-cn luci-i18n-opkg-zh-cn luci-i18n-ddns-zh-cn ddns-scripts-dnspod luci-i18n-upnp-zh-cn luci-i18n-firewall-zh-cn luci-i18n-vlmcsd-zh-cn luci-i18n-arpbind-zh-cn luci-i18n-base-zh-cn   luci-i18n-filetransfer-zh-cn ddns-scripts-cloudflare ddns-scripts_aliyun  luci-i18n-udpxy-zh-cn luci-i18n-accesscontrol-zh-cn luci-i18n-watchcat-zh-cn bind-host  luci-app-wechatpush  luci-i18n-openvpn-server-zh-cn luci-i18n-ipsec-vpnserver-manyusers-zh-cn  luci-i18n-wireguard-zh-cn  luci-proto-wireguard"
+        make image PACKAGES="qemu-ga luci-i18n-smartdns-zh-cn luci-i18n-passwall-zh-cn luci-i18n-zerotier-zh-cn luci-app-serverchan luci-i18n-ttyd-zh-cn luci-i18n-attendedsysupgrade-zh-cn luci-i18n-opkg-zh-cn luci-i18n-ddns-zh-cn ddns-scripts-dnspod luci-i18n-upnp-zh-cn luci-i18n-firewall-zh-cn luci-i18n-vlmcsd-zh-cn luci-i18n-arpbind-zh-cn luci-i18n-base-zh-cn   luci-i18n-filetransfer-zh-cn ddns-scripts-cloudflare ddns-scripts_aliyun  luci-i18n-udpxy-zh-cn luci-i18n-accesscontrol-zh-cn luci-i18n-watchcat-zh-cn bind-host  luci-app-wechatpush"
 
     - name: 上传固件
       uses: actions/upload-artifact@master
