@@ -1,10 +1,11 @@
 name: imagebuilder编译23.05.0-rc3
-on: push
+on: 
+  schedule:
+  - cron: "0 0 3 ? * 2"
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-
 
     - name: 删除文件
       run: |
@@ -20,6 +21,7 @@ jobs:
         free -h
         df -Th
         uname -a
+        echo "DATE0=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
 
     - name: 安装依赖文件
       run: |
@@ -48,16 +50,80 @@ jobs:
         sed -i 's/CONFIG_VHDX_IMAGES=y/#CONFIG_VHDX_IMAGES is not set/' .config
         #sed -i 's/CONFIG_TARGET_ROOTFS_PARTSIZE=300/CONFIG_TARGET_ROOTFS_PARTSIZE=1024/' .config
 
+    - name: 添加非官方包
+      run: |
+        cd immortalwrt-imagebuilder-23.05.0-rc3-x86-64.Linux-x86_64
         wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.2.4/luci-app-lucky_2.1.1-1_all.ipk
         wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.2.4/luci-i18n-lucky-zh-cn_2.1.1-1_all.ipk
         wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.2.4/lucky_2.2.4_Openwrt_x86_64.ipk
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.3.2/luci-app-wechatpush_3.3.2_all.ipk
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.3.2/luci-i18n-wechatpush-zh-cn_git-23.169.53184-35dd92c_all.ipk
 
+    - name: 编译
+      id: compile
+      run: |
+        cd immortalwrt-imagebuilder-23.05.0-rc3-x86-64.Linux-x86_64
         make image PACKAGES="qemu-ga luci-i18n-smartdns-zh-cn luci-i18n-passwall-zh-cn luci-i18n-zerotier-zh-cn luci-i18n-ttyd-zh-cn luci-i18n-attendedsysupgrade-zh-cn luci-i18n-opkg-zh-cn luci-i18n-ddns-zh-cn ddns-scripts-dnspod luci-i18n-upnp-zh-cn luci-i18n-firewall-zh-cn luci-i18n-vlmcsd-zh-cn luci-i18n-arpbind-zh-cn luci-i18n-base-zh-cn   luci-i18n-filetransfer-zh-cn ddns-scripts-cloudflare ddns-scripts_aliyun  luci-i18n-udpxy-zh-cn luci-i18n-accesscontrol-zh-cn luci-i18n-watchcat-zh-cn bind-host luci-app-wechatpush luci-i18n-wechatpush-zh-cn lucky luci-app-lucky luci-i18n-lucky-zh-cn"
+        echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+        echo "status=success" >> $GITHUB_OUTPUT
 
-    - name: 上传固件
+    - name: 上传bin文件夹
       uses: actions/upload-artifact@master
+      if: steps.compile.outputs.status == 'success' 
       with: 
-        name: immortalwrt-imagebuilder-23.05.0-rc3-x86-64.Linux-x86_64-firmware
-        path: immortalwrt-imagebuilder-23.05.0-rc3-x86-64.Linux-x86_64/bin/targets/*
+        name: immortalwrt_23.05.0-rc3-x86-64-${{ env.FILE_DATE }}
+        path: immortalwrt-imagebuilder-23.05.0-rc3-x86-64.Linux-x86_64/bin/
+    
+    - name: 整理文件
+      id: organize
+      run: |
+        cd immortalwrt-imagebuilder-23.05.0-rc3-x86-64.Linux-x86_64/bin/targets/*/*
+        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+        echo "status=success" >> $GITHUB_OUTPUT
+
+    - name: 上传firmware文件夹
+      uses: actions/upload-artifact@main
+      if: steps.organize.outputs.status == 'success' && !cancelled()
+      with:
+        name: immortalwrt-23.05.0-rc3-x86-64-${{ env.FILE_DATE }}
+        path: ${{ env.FIRMWARE }}
+        
+    - name: 创建 release 标签
+      id: tag
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      run: |
+        echo "release_tag=immortalwrt-23.05.0-rc3$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
+        touch release.txt
+        echo "status=success" >> $GITHUB_OUTPUT
+
+    - name: 上传发布release
+      uses: softprops/action-gh-release@v1
+      if: steps.tag.outputs.status == 'success' && !cancelled()
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACTIONS_TRIGGER_PAT }}
+      with:
+        tag_name: ${{ steps.tag.outputs.release_tag }}
+        body_path: release.txt
+        files: ${{ env.FIRMWARE }}/*
+        
+    - name: 删除运行的工作流
+      uses: FunctionXJB/delete-workflow-runs@main
+      with:
+        retain_days: 1
+        keep_minimum_runs: 3
+
+    - name: 删除旧RReleases
+      uses: dev-drprasad/delete-older-releases@v0.1.0
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      with:
+        keep_latest: 6
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACTIONS_TRIGGER_PAT }}
+
+               
+    - name: Pushplus推送通知
+      if: steps.tag.outputs.status == 'success' && !cancelled()
+      run: |
+        echo "DATE2=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
+        curl http://www.pushplus.plus/send -X POST -H "Content-Type:application/json" -d '{"title":"GitAction编译immortalwrtX64K6.1成功！","content":" 从${{ env.DATE0 }}开始到${{ env.DATE2 }}编译完成！","token":"${{ secrets.PUSHPLUS_TOKEN }}","webhook":"02","channel":"cp"}'
