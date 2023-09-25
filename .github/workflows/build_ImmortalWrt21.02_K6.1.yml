@@ -168,7 +168,7 @@ jobs:
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "release_tag=immortalwrt$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
+        echo "release_tag=immortalwrt21.02-$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
         touch release.txt
         echo " <a href="https://github.com/immortalwrt/immortalwrt">immortalwrt</a>更新记录:" >> release.txt
         git -C openwrt log -3 --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:"%cd<br/>更新内容: %s<br/>"  >> release.txt        
@@ -206,5 +206,5 @@ jobs:
        
     - name: Pushplus推送通知
       if: steps.tag.outputs.status == 'success' && !cancelled()
-      run: curl http://www.pushplus.plus/send -X POST -H "Content-Type:application/json" -d '{"title":"GitAction编译immortalwrtX64K6.1成功！","content":" 从${{ env.TIME1 }}开始到${{ env.TIME2 }}编译完成！","token":"${{ secrets.PUSHPLUS_TOKEN }}","webhook":"02","channel":"cp"}'
+      run: curl http://www.pushplus.plus/send -X POST -H "Content-Type:application/json" -d '{"title":"GitAction编译immortalwrt21.02-X64K6.1成功！","content":" 从${{ env.TIME1 }}开始到${{ env.TIME2 }}编译完成！","token":"${{ secrets.PUSHPLUS_TOKEN }}","webhook":"02","channel":"cp"}'
 
