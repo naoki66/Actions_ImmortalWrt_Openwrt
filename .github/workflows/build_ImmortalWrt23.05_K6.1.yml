@@ -1,0 +1,210 @@
+#
+# Copyright (c) 2019-2023 P3TERX <https://p3terx.com>
+#
+# This is free software, licensed under the MIT License.
+# See /LICENSE for more information.
+#
+# https://github.com/P3TERX/Actions-OpenWrt
+# Description: Build OpenWrt using GitHub Actions
+#
+
+name: 编译immortalwrt23.05 X64 K6.1
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'SSH connection to Actions'
+        required: false
+        default: 'false'
+
+env:
+  REPO_URL: https://github.com/immortalwrt/immortalwrt
+  REPO_BRANCH: openwrt-23.05
+  FEEDS_CONF: feeds.conf.default
+  CONFIG_FILE: x64.config
+  DIY_P1_SH: diy-part1.sh
+  DIY_P2_SH: diy-part2.sh
+  UPLOAD_FIRMWARE: true
+  UPLOAD_RELEASE: true
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 检查
+      uses: actions/checkout@main
+
+    - name: 初始化运行环境
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo -E apt-get -qq update
+        sudo -E apt-get -qq install $(curl -fsSL https://github.com/naoki66/Actions_ImmortalWrt_Openwrt/raw/main/depends-ubuntu)
+        sudo -E apt-get -qq autoremove --purge
+        sudo -E apt-get -qq clean
+        sudo timedatectl set-timezone "$TZ"
+        sudo mkdir -p /workdir
+        sudo chown $USER:$GROUPS /workdir
+        echo "TIME1=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
+
+
+    - name: 克隆源代码
+      working-directory: /workdir
+      run: |
+        df -hT $PWD
+        git clone $REPO_URL -b $REPO_BRANCH openwrt
+        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+
+    - name: 对比编译环境缓存
+      uses: HiGarfield/cachewrtbuild@main
+      with:
+        #是否一并缓存.ccache目录，如果你启用了ccache。这是唯一的常用参数，其他三个用于除错，一般不需要调整
+        ccache: 'true'   
+        #是否缓存工具链目录 
+        toolchain: 'true' 
+        #是否跳过工具链编译
+        skip: 'true'
+        #清空缓存          
+        clean: 'false'
+        #标识缓存
+        mixkey: 'x86'
+        prefix: ${{github.workspace}}/openwrt   
+
+    - name: 载入配置feeds
+      run: |
+        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        chmod +x $DIY_P1_SH
+        cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P1_SH
+
+    - name: 更新安装feeds
+      run: |
+        cd openwrt
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+       
+    - name: 载入配置文件，修改内核版本
+      run: |
+        [ -e files ] && mv files openwrt/files
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        chmod +x $DIY_P2_SH
+        cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P2_SH
+        sed -i 's/KERNEL_PATCHVER:=5.15/KERNEL_PATCHVER:=6.1/g' target/linux/x86/Makefile
+
+    - name: SSH 开放 Actions
+      uses: P3TERX/ssh2actions@v1.0.0
+      if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
+      env:
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+
+    - name: 下载软件包
+      id: package
+      run: |
+        cd openwrt
+        make defconfig
+        make download -j16
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;	
+
+    - name: 编译固件
+      id: compile
+      run: |
+        cd openwrt
+        echo -e "$(nproc) thread compile"
+        make -j$(nproc)  || make -j1 V=s
+        echo "======================="
+        echo "Space usage:"
+        echo "======================="
+        df -h
+        echo "======================="
+        du -h --max-depth=1 ./ --exclude=build_dir --exclude=bin
+        du -h --max-depth=1 ./build_dir
+        du -h --max-depth=1 ./bin        
+        echo "status=success" >> $GITHUB_OUTPUT
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
+        echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+
+    - name: 整理文件夹
+      id: organize
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      run: |
+          mkdir -p ./artifact/package
+          mkdir -p ./artifact/buildinfo
+          rm -rf $(find ./bin/targets/ -type d -name "packages")
+          cp -rf $(find ./bin/packages/ -type f -name "*.ipk") ./artifact/package/
+          cp -rf $(find ./bin/targets/ -type f -name "*.buildinfo" -o -name "*.manifest") ./artifact/buildinfo/
+          echo "status=success" >> $GITHUB_OUTPUT
+    
+    - name: 上传buildinfo
+      uses: actions/upload-artifact@main
+      if: steps.organize.outputs.status == 'success' && !cancelled()
+      with:
+          name: ${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}buildinfo
+          path: ./artifact/buildinfo/
+    
+    - name: 上传package
+      uses: actions/upload-artifact@main
+      if: steps.organize.outputs.status == 'success' && !cancelled()
+      with:
+        name: ${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}package
+        path: ./artifact/package/
+
+    - name: 上传firmware
+      uses: actions/upload-artifact@main
+      if: steps.organize.outputs.status == 'success' && !cancelled()
+      with: 
+          name: ${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}firmware
+          path: ./bin/targets/
+
+    - name: 创建release tag
+      id: tag
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      run: |
+        echo "release_tag=immortalwrt$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
+        touch release.txt
+        echo " <a href="https://github.com/immortalwrt/immortalwrt">immortalwrt</a>更新记录:" >> release.txt
+        git -C openwrt log -3 --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:"%cd<br/>更新内容: %s<br/>"  >> release.txt        
+        echo " <br/><br/><a href="https://github.com/immortalwrt/packages">packages</a>更新记录:" >> release.txt
+        git -C openwrt/feeds/packages log -3 --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:"%cd<br/>更新内容: %s<br/>"  >> release.txt        
+        echo " <br/><br/><a href="https://github.com/immortalwrt/luci">luci</a>更新记录:" >> release.txt
+        git -C openwrt/feeds/luci log -3 --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:"%cd<br/>更新内容: %s<br/>"  >> release.txt  
+        echo "TIME2=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
+        echo "status=success" >> $GITHUB_OUTPUT
+
+    - name: 上传固件到release
+      uses: softprops/action-gh-release@v1
+      if: steps.tag.outputs.status == 'success' && !cancelled()
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACTIONS_TRIGGER_PAT }}
+      with:
+        tag_name: ${{ steps.tag.outputs.release_tag }}
+        body_path: release.txt
+        files: ./bin/targets/*
+
+    - name: 删除运行的工作流
+      uses: naoki66/delete-workflow-runs@main
+      with:
+        retain_days: 1
+        keep_minimum_runs: 3
+
+    - name: 删除旧RReleases
+      uses: dev-drprasad/delete-older-releases@v0.2.1
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      with:
+        keep_latest: 15
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACTIONS_TRIGGER_PAT }}
+       
+    - name: Pushplus推送通知
+      if: steps.tag.outputs.status == 'success' && !cancelled()
+      run: curl http://www.pushplus.plus/send -X POST -H "Content-Type:application/json" -d '{"title":"GitAction编译immortalwrt23.05-X64K6.1成功！","content":" 从${{ env.TIME1 }}开始到${{ env.TIME2 }}编译完成！","token":"${{ secrets.PUSHPLUS_TOKEN }}","webhook":"02","channel":"cp"}'
+
