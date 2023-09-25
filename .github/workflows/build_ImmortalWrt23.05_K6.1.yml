@@ -26,8 +26,6 @@ env:
   CONFIG_FILE: x64.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
-  UPLOAD_FIRMWARE: true
-  UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
 
 jobs:
@@ -118,7 +116,8 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        make -j$(nproc)  || make -j1 V=s
+        #make -j$(nproc)  || make -j1 V=s
+        make -j1 V=s
         echo "======================="
         echo "Space usage:"
         echo "======================="
@@ -127,14 +126,15 @@ jobs:
         du -h --max-depth=1 ./ --exclude=build_dir --exclude=bin
         du -h --max-depth=1 ./build_dir
         du -h --max-depth=1 ./bin        
-        echo "status=success" >> $GITHUB_OUTPUT
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
         echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+        echo "status=success" >> $GITHUB_OUTPUT
+
 
     - name: 整理文件夹
       id: organize
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      if: steps.compile.outputs.status == 'success' &&  !cancelled()
       run: |
           mkdir -p ./artifact/package
           mkdir -p ./artifact/buildinfo
@@ -191,13 +191,14 @@ jobs:
 
     - name: 删除运行的工作流
       uses: naoki66/delete-workflow-runs@main
+      if: steps.tag.outputs.status == 'success'  && !cancelled()
       with:
         retain_days: 1
         keep_minimum_runs: 3
 
     - name: 删除旧RReleases
       uses: dev-drprasad/delete-older-releases@v0.2.1
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: steps.tag.outputs.status == 'success'  && !cancelled()
       with:
         keep_latest: 15
         delete_tags: true
