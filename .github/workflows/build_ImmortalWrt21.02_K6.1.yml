@@ -147,21 +147,21 @@ jobs:
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-          name: ${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}buildinfo
+          name: ${{ env.DEVICE_NAME }}-21.02-${{ env.FILE_DATE }}buildinfo
           path: ./artifact/buildinfo/
     
     - name: 上传package
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: ${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}package
+        name: ${{ env.DEVICE_NAME }}-21.02-${{ env.FILE_DATE }}package
         path: ./artifact/package/
 
     - name: 上传firmware
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with: 
-          name: ${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}firmware
+          name: ${{ env.DEVICE_NAME }}-21.02-${{ env.FILE_DATE }}firmware
           path: ./bin/targets/
 
     - name: 创建release tag
