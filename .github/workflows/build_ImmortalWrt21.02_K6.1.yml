@@ -58,21 +58,6 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
-    - name: 对比编译环境缓存
-      uses: HiGarfield/cachewrtbuild@main
-      with:
-        #是否一并缓存.ccache目录，如果你启用了ccache。这是唯一的常用参数，其他三个用于除错，一般不需要调整
-        ccache: 'true'   
-        #是否缓存工具链目录 
-        toolchain: 'true' 
-        #是否跳过工具链编译
-        skip: 'true'
-        #清空缓存          
-        clean: 'false'
-        #标识缓存
-        mixkey: 'x86'
-        prefix: ${{github.workspace}}/openwrt   
-
     - name: 载入配置feeds
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
@@ -168,7 +153,7 @@ jobs:
       id: tag
       if: steps.organize.outputs.status == 'success' && !cancelled()
       run: |
-        echo "release_tag=immortalwrt21.02-$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
+        echo "release_tag=immortalwrt-21.02K6.1-$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
         touch release.txt
         echo " <a href="https://github.com/immortalwrt/immortalwrt">immortalwrt</a>更新记录:" >> release.txt
         git -C openwrt log -3 --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:"%cd<br/>更新内容: %s<br/>"  >> release.txt        
