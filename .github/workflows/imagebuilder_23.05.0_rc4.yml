@@ -51,12 +51,12 @@ jobs:
     - name: 下载imagebuilder源码
       run: |
         wget https://downloads.immortalwrt.org/releases/23.05.0-rc4/targets/x86/64/immortalwrt-imagebuilder-23.05.0-rc4-x86-64.Linux-x86_64.tar.xz
-        tar -J -x -f immortalwrt-imagebuilder-23.05.0-rc3-x86-64.Linux-x86_64.tar.xz
+        tar -J -x -f immortalwrt-imagebuilder-23.05.0-rc4-x86-64.Linux-x86_64.tar.xz
         
 
     - name: 修改配置和编译文件
       run: |
-        cd immortalwrt-imagebuilder-23.05.0-rc3-x86-64.Linux-x86_64
+        cd immortalwrt-imagebuilder-23.05.0-rc4-x86-64.Linux-x86_64
         sed -i 's/CONFIG_ISO_IMAGES=y/#CONFIG_ISO_IMAGES is not set/' .config
         #sed -i 's/CONFIG_QCOW2_IMAGES=y/#CONFIG_QCOW2_IMAGES is not set/' .config
         sed -i 's/CONFIG_VDI_IMAGES=y/#CONFIG_VDI_IMAGES is not set/' .config
@@ -66,7 +66,7 @@ jobs:
 
     - name: 添加非官方包
       run: |
-        cd immortalwrt-imagebuilder-23.05.0-rc3-x86-64.Linux-x86_64
+        cd immortalwrt-imagebuilder-23.05.0-rc4-x86-64.Linux-x86_64
         wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.2.4/luci-app-lucky_2.1.1-1_all.ipk
         wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.2.4/luci-i18n-lucky-zh-cn_2.1.1-1_all.ipk
         wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.2.4/lucky_2.2.4_Openwrt_x86_64.ipk
