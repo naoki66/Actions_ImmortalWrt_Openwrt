@@ -76,7 +76,7 @@ jobs:
         wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.2.1/v2dat_2022-12-15-47b8ee51-1_x86_64.ipk
         wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.2.1/v2ray-geoip_2023-09-28_all.ipk
         wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.2.1/v2ray-geosite_2023-09-28_all.ipk
-        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.2.1/luci-app-mosdns_1.5.12_all.ipk
+        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.2.1/luci-app-mosdns_1.5.13_all.ipk
         wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.2.1/luci-i18n-mosdns-zh-cn_git-23.271.70451-e31521d_all.ipk
 
     - name: 编译
