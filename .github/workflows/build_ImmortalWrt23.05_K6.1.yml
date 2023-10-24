@@ -136,33 +136,17 @@ jobs:
       id: organize
       if: steps.compile.outputs.status == 'success' &&  !cancelled()
       run: |
-          mkdir -p ./artifact/package
-          mkdir -p ./artifact/buildinfo
-          cp -rf $(find ./bin/packages/ -type f -name "*.ipk") ./artifact/package/
-          rm -rf $(find ./bin/targets/ -type d -name "packages")
-          cp -rf $(find ./bin/targets/ -type f -name "*.buildinfo" -o -name "*.manifest") ./artifact/buildinfo/
-          echo "status=success" >> $GITHUB_OUTPUT
-    
-    - name: 上传buildinfo
-      uses: actions/upload-artifact@main
-      if: steps.organize.outputs.status == 'success' && !cancelled()
-      with:
-          name: ${{ env.DEVICE_NAME }}-23.05-${{ env.FILE_DATE }}buildinfo
-          path: ./artifact/buildinfo/
-    
-    - name: 上传package
-      uses: actions/upload-artifact@main
-      if: steps.organize.outputs.status == 'success' && !cancelled()
-      with:
-        name: ${{ env.DEVICE_NAME }}-23.05-${{ env.FILE_DATE }}package
-        path: ./artifact/package/
+         cd openwrt/bin/targets/*/*
+         rm -rf packages
+         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 上传firmware
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with: 
           name: ${{ env.DEVICE_NAME }}-23.05-${{ env.FILE_DATE }}firmware
-          path: ./bin/targets/
+          path: ${{ env.FIRMWARE }}
 
     - name: 创建release tag
       id: tag
