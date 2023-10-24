@@ -142,15 +142,17 @@ jobs:
          echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 上传firmware
+      id: firmware
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with: 
           name: ${{ env.DEVICE_NAME }}-23.05-${{ env.FILE_DATE }}firmware
           path: ${{ env.FIRMWARE }}
+          echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 创建release tag
       id: tag
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: steps.firmware.outputs.status == 'success' && !cancelled()
       run: |
         echo "release_tag=immortalwrt23.05-$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
         touch release.txt
