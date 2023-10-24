@@ -50,7 +50,6 @@ jobs:
         sudo chown $USER:$GROUPS /workdir
         echo "TIME1=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
 
-
     - name: 克隆源代码
       working-directory: /workdir
       run: |
@@ -148,11 +147,10 @@ jobs:
       with: 
           name: ${{ env.DEVICE_NAME }}-23.05-${{ env.FILE_DATE }}firmware
           path: ${{ env.FIRMWARE }}
-          echo "status=success" >> $GITHUB_OUTPUT
-
+          
     - name: 创建release tag
       id: tag
-      if: steps.firmware.outputs.status == 'success' && !cancelled()
+      if: steps.organize.outputs.status == 'success' && !cancelled()
       run: |
         echo "release_tag=immortalwrt23.05-$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
         touch release.txt
