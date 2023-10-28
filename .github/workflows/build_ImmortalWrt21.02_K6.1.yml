@@ -157,7 +157,7 @@ jobs:
       with:
         tag_name: ${{ steps.tag.outputs.release_tag }}
         body_path: release.txt
-        files: ./bin/targets/*
+        files: ${{ env.FIRMWARE }}/*      
 
     - name: 删除运行的工作流
       if: steps.tag.outputs.status == 'success'  && !cancelled()
