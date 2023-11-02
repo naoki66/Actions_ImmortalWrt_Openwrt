@@ -1,3 +1,42 @@
+
+
+🚀 仓库自动编译，感谢以下仓库的源主贡献。</br>
+   ➦openwrt主源码来自https://github.com/immortalwrt/immortalwrt </br>
+   ➦passwall源码来自 https://github.com/xiaorouji/openwrt-passwall</br>
+   ➦luci-app-ddns-go源码来自 https://github.com/sirpdboy/luci-app-ddns-go</br> 
+   ➦smartdns源码来自 https://github.com/pymumu/smartdns</br>
+   ➦luci-app-lucky源码来自 https://github.com/gdy666/luci-app-lucky</br>
+   ➦luci-app-mosdns源码来自 https://github.com/sbwml/luci-app-mosdns </br>
+   ➦ddns源码来自 https://github.com/jeessy2/ddns-go</br>   但不知道为何被ddns-go源主jeessy2拉黑了![UR TP76LD{FMVA4{5)J{ ~Q](https://github.com/naoki66/Actions_ImmortalWrt_Openwrt/assets/22931306/5ae4dcad-03d8-4774-adad-30bb91e8d033)
+
+
+首次编译：
+```bash
+git clone https://github.com/coolsnowwolf/lede
+cd lede
+./scripts/feeds update -a  && ./scripts/feeds install -a
+make menuconfig
+make download -j8
+make V=s -j1
+```
+
+二次编译：
+```bash
+cd lede 
+git pull  && ./scripts/feeds update -a  && ./scripts/feeds install -a 
+make defconfig && make download -j8
+make V=s -j$(nproc)
+```
+重新配置：
+```bash
+rm -rf ./tmp && rm -rf .config
+make menuconfig
+make V=s -j$(nproc)
+```
+
+
+
+
 **English** | [中文](https://p3terx.com/archives/build-openwrt-with-github-actions.html)
 
 # Actions-OpenWrt
