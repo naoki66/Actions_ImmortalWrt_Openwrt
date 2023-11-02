@@ -7,7 +7,7 @@
    ➦smartdns源码来自 https://github.com/pymumu/smartdns</br>
    ➦luci-app-lucky源码来自 https://github.com/gdy666/luci-app-lucky</br>
    ➦luci-app-mosdns源码来自 https://github.com/sbwml/luci-app-mosdns </br>
-   ➦ddns源码来自 https://github.com/jeessy2/ddns-go</br>   但不知道为何被ddns-go源主jeessy2拉黑了![UR TP76LD{FMVA4{5)J{ ~Q](https://github.com/naoki66/Actions_ImmortalWrt_Openwrt/assets/22931306/5ae4dcad-03d8-4774-adad-30bb91e8d033)
+   ➦ddns源码来自 https://github.com/jeessy2/ddns-go</br>   但不知道为何被ddns-go源主jeessy2拉黑了![UR TP76LD{FMVA4{5)J{ ~Q](https://github.com/naoki66/Actions_ImmortalWrt_Openwrt/assets/22931306/5ae4dcad-03d8-4774-adad-30bb91e8d033)   若有冒犯，在此深表抱歉！
 
 
 首次编译：
