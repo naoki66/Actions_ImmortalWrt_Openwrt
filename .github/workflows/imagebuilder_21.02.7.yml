@@ -73,12 +73,12 @@ jobs:
         wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.2.4/lucky_2.2.4_Openwrt_x86_64.ipk
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.3.2/luci-app-wechatpush_3.3.2_all.ipk
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.3.2/luci-i18n-wechatpush-zh-cn_git-23.169.53184-35dd92c_all.ipk
-        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.0/mosdns_5.3.0-1_x86_64.ipk
-        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.0/v2dat_2022-12-15-47b8ee51-1_x86_64.ipk
-        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.0/v2ray-geoip_2023-11-01_all.ipk
-        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.0/v2ray-geosite_2023-11-01_all.ipk
-        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.0/luci-app-mosdns_1.5.15_all.ipk
-        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.0/luci-i18n-mosdns-zh-cn_git-23.305.55662-b42fc88_all.ipk
+        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.1/mosdns_5.3.1-1_x86_64.ipk
+        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.1/v2dat_2022-12-15-47b8ee51-1_x86_64.ipk
+        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.1/v2ray-geoip_2023-11-06_all.ipk
+        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.1/v2ray-geosite_2023-11-06_all.ipk
+        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.1/luci-app-mosdns_1.5.16_all.ipk
+        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.1/luci-i18n-mosdns-zh-cn_git-23.309.43711-74d15c2_all.ipk
 
     - name: 编译
       id: compile
