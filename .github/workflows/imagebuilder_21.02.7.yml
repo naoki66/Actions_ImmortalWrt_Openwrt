@@ -70,7 +70,7 @@ jobs:
         cd immortalwrt-imagebuilder-21.02.7-x86-64.Linux-x86_64
         wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.2.4/luci-app-lucky_2.1.1-1_all.ipk
         wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.2.4/luci-i18n-lucky-zh-cn_2.1.1-1_all.ipk
-        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.2.4/lucky_2.2.4_Openwrt_x86_64.ipk
+        wget -P ./packages https://github.com/naoki66/luci-app-lucky/blob/main/lucky/lucky_2.4.6_Openwrt_x86_64.ipk
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.4.1/luci-app-wechatpush_3.4.1_all.ipk
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.4.1/luci-i18n-wechatpush-zh-cn_git-23.306.63507-3417947_all.ipk
         wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.1/mosdns_5.3.1-1_x86_64.ipk
