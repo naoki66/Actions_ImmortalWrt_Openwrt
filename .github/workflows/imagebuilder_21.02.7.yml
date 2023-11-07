@@ -71,8 +71,8 @@ jobs:
         wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.2.4/luci-app-lucky_2.1.1-1_all.ipk
         wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.2.4/luci-i18n-lucky-zh-cn_2.1.1-1_all.ipk
         wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.2.4/lucky_2.2.4_Openwrt_x86_64.ipk
-        wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.3.2/luci-app-wechatpush_3.3.2_all.ipk
-        wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.3.2/luci-i18n-wechatpush-zh-cn_git-23.169.53184-35dd92c_all.ipk
+        wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.4.1/luci-app-wechatpush_3.4.1_all.ipk
+        wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.4.1/luci-i18n-wechatpush-zh-cn_git-23.306.63507-3417947_all.ipk
         wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.1/mosdns_5.3.1-1_x86_64.ipk
         wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.1/v2dat_2022-12-15-47b8ee51-1_x86_64.ipk
         wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.1/v2ray-geoip_2023-11-06_all.ipk
