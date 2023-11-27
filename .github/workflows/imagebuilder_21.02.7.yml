@@ -79,12 +79,15 @@ jobs:
         wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.1/v2ray-geosite_2023-11-06_all.ipk
         wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.1/luci-app-mosdns_1.5.16_all.ipk
         wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.1/luci-i18n-mosdns-zh-cn_git-23.309.43711-74d15c2_all.ipk
+        wget -P ./packages https://github.com/sirpdboy/luci-app-ddns-go/releases/download/v1.3.2-10/ddns-go_5.6.1-1_x86_64.ipk
+        wget -P ./packages https://github.com/sirpdboy/luci-app-ddns-go/releases/download/v1.3.2-10/luci-app-ddns-go_1.3.2-10_all.ipk
+        wget -P ./packages https://github.com/sirpdboy/luci-app-ddns-go/releases/download/v1.3.2-10/luci-i18n-ddns-go-zh-cn_1.3.2-10_all.ipk       
 
     - name: 编译
       id: compile
       run: |
         cd immortalwrt-imagebuilder-21.02.7-x86-64.Linux-x86_64
-        make image PACKAGES="qemu-ga luci-i18n-smartdns-zh-cn luci-app-openclash luci-i18n-passwall-zh-cn luci-i18n-zerotier-zh-cn luci-i18n-ttyd-zh-cn luci-i18n-attendedsysupgrade-zh-cn luci-i18n-opkg-zh-cn luci-i18n-ddns-zh-cn ddns-scripts-dnspod luci-i18n-upnp-zh-cn luci-i18n-firewall-zh-cn luci-i18n-vlmcsd-zh-cn luci-i18n-arpbind-zh-cn luci-i18n-base-zh-cn   luci-i18n-filetransfer-zh-cn ddns-scripts-cloudflare ddns-scripts_aliyun  luci-i18n-udpxy-zh-cn luci-i18n-accesscontrol-zh-cn luci-i18n-watchcat-zh-cn bind-host luci-app-wechatpush luci-i18n-wechatpush-zh-cn lucky luci-app-lucky luci-i18n-lucky-zh-cn v2dat v2ray-geoip v2ray-geosite mosdns luci-app-mosdns	luci-i18n-mosdns-zh-cn"
+        make image PACKAGES="qemu-ga luci-i18n-smartdns-zh-cn luci-app-openclash luci-i18n-passwall-zh-cn luci-i18n-zerotier-zh-cn luci-i18n-ttyd-zh-cn luci-i18n-attendedsysupgrade-zh-cn luci-i18n-opkg-zh-cn luci-i18n-ddns-zh-cn ddns-scripts-dnspod luci-i18n-upnp-zh-cn luci-i18n-firewall-zh-cn luci-i18n-vlmcsd-zh-cn luci-i18n-arpbind-zh-cn luci-i18n-base-zh-cn   luci-i18n-filetransfer-zh-cn ddns-scripts-cloudflare ddns-scripts_aliyun  luci-i18n-udpxy-zh-cn luci-i18n-accesscontrol-zh-cn luci-i18n-watchcat-zh-cn bind-host luci-app-wechatpush luci-i18n-wechatpush-zh-cn lucky luci-app-lucky luci-i18n-lucky-zh-cn v2dat v2ray-geoip v2ray-geosite mosdns luci-app-mosdns	luci-i18n-mosdns-zh-cn ddns-go  luci-app-ddns-go luci-app-ddns-go-zh-cn "
         echo "FILE_DATE=_$(date +"%Y%m%d-%H%M")" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
