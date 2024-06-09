@@ -1,4 +1,4 @@
-name: imagebuilder编译23.05_SNAPSHOT
+name: imagebuilder编译_SNAPSHOT
 on: 
   repository_dispatch:
   workflow_dispatch:
