@@ -51,7 +51,7 @@ jobs:
     - name: 下载imagebuilder源码
       run: |
         wget https://downloads.immortalwrt.org/snapshots/targets/x86/64/immortalwrt-imagebuilder-x86-64.Linux-x86_64.tar.zst
-        tar -J -x -f immortalwrt-imagebuilder-x86-64.Linux-x86_64.tar.zst
+        tar -I zstd -x -f immortalwrt-imagebuilder-x86-64.Linux-x86_64.tar.zst
         
 
     - name: 修改配置和编译文件
