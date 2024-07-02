@@ -70,7 +70,7 @@ jobs:
         wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.10.5/luci-app-lucky_2.1.1-1_all.ipk
         wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.10.5/luci-i18n-lucky-zh-cn_2.1.1-1_all.ipk
         wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.10.5/lucky_2.10.5_Openwrt_x86_64.ipk
-        wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.4.2/luci-app-wechatpush_3.4.2_all.ipk
+        wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.4.3/luci-app-wechatpush_3.4.3_all.ipk
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.4.2/luci-i18n-wechatpush-zh-cn_git-23.306.63507-3417947_all.ipk
 
 
