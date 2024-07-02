@@ -1,4 +1,4 @@
-name: imagebuilder编译_SNAPSHOT
+name: imagebuilder编译master_SNAPSHOT
 on: 
   repository_dispatch:
   workflow_dispatch:
@@ -67,9 +67,9 @@ jobs:
     - name: 添加非官方包
       run: |
         cd immortalwrt-imagebuilder-x86-64.Linux-x86_64
-        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.8.3/luci-app-lucky_2.1.1-1_all.ipk
-        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.8.3/luci-i18n-lucky-zh-cn_2.1.1-1_all.ipk
-        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.8.3/lucky_2.8.3_Openwrt_x86_64.ipk
+        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.10.5/luci-app-lucky_2.1.1-1_all.ipk
+        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.10.5/luci-i18n-lucky-zh-cn_2.1.1-1_all.ipk
+        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.10.5/lucky_2.10.5_Openwrt_x86_64.ipk
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.4.2/luci-app-wechatpush_3.4.2_all.ipk
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.4.2/luci-i18n-wechatpush-zh-cn_git-23.306.63507-3417947_all.ipk
 
@@ -79,7 +79,7 @@ jobs:
       id: compile
       run: |
         cd immortalwrt-imagebuilder-x86-64.Linux-x86_64
-        make image PACKAGES="alsa-utils automount base-files busybox ca-bundle dnsmasq-full dropbear fdisk firewall4 fstools grub2-bios-setup ipv6helper kmod-8139cp kmod-8139too kmod-ac97 kmod-amazon-ena kmod-amd-xgbe kmod-bnx2 kmod-button-hotplug kmod-e1000 kmod-e1000e kmod-forcedeth kmod-fs-f2fs kmod-fs-vfat kmod-i40e kmod-igb kmod-igbvf kmod-igc kmod-ixgbe kmod-ixgbevf kmod-nft-offload kmod-pcnet32 kmod-r8101 kmod-r8125 kmod-r8168  kmod-tg3 kmod-tulip  kmod-usb-hid  kmod-vmxnet3 libc libgcc libustream-openssl logd mkf2fs mtd netifd nftables opkg partx-utils ppp ppp-mod-pppoe procd procd-seccomp procd-ujail uci uclient-fetch urandom-seed urngd qemu-ga luci-i18n-smartdns-zh-cn luci-app-openclash luci-app-ddns-go luci-i18n-zerotier-zh-cn luci-i18n-ttyd-zh-cn luci-i18n-attendedsysupgrade-zh-cn luci-i18n-opkg-zh-cn luci-i18n-ddns-zh-cn ddns-scripts-dnspod luci-i18n-upnp-zh-cn luci-i18n-firewall-zh-cn luci-i18n-vlmcsd-zh-cn luci-i18n-arpbind-zh-cn luci-i18n-base-zh-cn luci-i18n-passwall-zh-cn ddns-scripts-cloudflare ddns-scripts_aliyun  luci-i18n-udpxy-zh-cn luci-i18n-accesscontrol-zh-cn luci-i18n-watchcat-zh-cn bind-host  lucky luci-app-lucky luci-i18n-lucky-zh-cn "
+        make image PACKAGES="qemu-ga luci-i18n-smartdns-zh-cn luci-app-openclash luci-app-ddns-go luci-i18n-zerotier-zh-cn luci-i18n-ttyd-zh-cn luci-i18n-attendedsysupgrade-zh-cn luci-i18n-opkg-zh-cn luci-i18n-ddns-zh-cn ddns-scripts-dnspod luci-i18n-upnp-zh-cn luci-i18n-firewall-zh-cn luci-i18n-vlmcsd-zh-cn luci-i18n-arpbind-zh-cn luci-i18n-base-zh-cn luci-i18n-passwall-zh-cn ddns-scripts-cloudflare ddns-scripts_aliyun  luci-i18n-udpxy-zh-cn luci-i18n-accesscontrol-zh-cn luci-i18n-watchcat-zh-cn bind-host luci-app-wechatpush luci-i18n-wechatpush-zh-cn lucky luci-app-lucky luci-i18n-lucky-zh-cn"
         echo "FILE_DATE=_$(date +"%Y%m%d-%H%M")" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
@@ -100,7 +100,7 @@ jobs:
     - name: 创建 release 标签
       id: tag
       run: |
-        echo "release_tag=imagebuilder-SNAPSHOT-${{ env.FILE_DATE }}" >> $GITHUB_OUTPUT
+        echo "release_tag=imagebuilder-master-SNAPSHOT-${{ env.FILE_DATE }}" >> $GITHUB_OUTPUT
         touch release.txt
         echo "TIME2=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
@@ -132,4 +132,4 @@ jobs:
                
     - name: Pushplus推送通知
       if: steps.tag.outputs.status == 'success' && !cancelled()
-      run: curl http://www.pushplus.plus/send -X POST -H "Content-Type:application/json" -d '{"title":"imagebuilder编译immortalwrt-SNAPSHOT成功！","content":" 从${{ env.TIME1 }}开始到${{ env.TIME2 }}编译完成！","token":"${{ secrets.PUSHPLUS_TOKEN }}","webhook":"02","channel":"cp"}'
+      run: curl http://www.pushplus.plus/send -X POST -H "Content-Type:application/json" -d '{"title":"imagebuilder编译immortalwrt-master-SNAPSHOT成功！","content":" 从${{ env.TIME1 }}开始到${{ env.TIME2 }}编译完成！","token":"${{ secrets.PUSHPLUS_TOKEN }}","webhook":"02","channel":"cp"}'
