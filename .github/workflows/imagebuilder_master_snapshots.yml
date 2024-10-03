@@ -72,12 +72,12 @@ jobs:
         wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.10.5/lucky_2.10.5_Openwrt_x86_64.ipk
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.5.6/luci-app-wechatpush_3.5.6_all.ipk
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.5.6/luci-i18n-wechatpush-zh-cn_24.195.32270.071b978_all.ipk
-        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.3/mosdns_5.3.3-1_x86_64.ipk
-        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.3/v2dat_2022-12-15-47b8ee51-1_x86_64.ipk
-        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.3/v2ray-geoip_20240815045241-1_all.ipk
-        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.3/v2ray-geosite_20240815045241-1_all.ipk
-        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.3/luci-app-mosdns_1.6.5_all.ipk
-        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.3/luci-i18n-mosdns-zh-cn_git-24.234.44438-6865a06_all.ipk
+        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.3-2/mosdns_5.3.3-2_x86_64.ipk
+        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.3-2/v2dat_2022-12-15-47b8ee51-1_x86_64.ipk
+        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.3-2/v2ray-geoip_2024-10-03-1_all.ipk
+        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.3-2/v2ray-geosite_2024-10-03-1_all.ipk
+        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.3-2/luci-app-mosdns_1.6.6_all.ipk
+        wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.3-2/luci-i18n-mosdns-zh-cn_git-24.246.09619-49e5a0d_all.ipk
 
         
     - name: 编译
