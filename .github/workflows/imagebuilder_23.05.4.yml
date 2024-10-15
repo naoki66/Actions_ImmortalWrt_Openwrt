@@ -78,12 +78,17 @@ jobs:
         wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.3-2/v2ray-geosite_2024-10-03-1_all.ipk
         wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.3-2/luci-app-mosdns_1.6.6_all.ipk
         wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.3-2/luci-i18n-mosdns-zh-cn_git-24.246.09619-49e5a0d_all.ipk
+        wget -P ./packages https://github.com/asvow/luci-app-tailscale/releases/download/v1.2.1/luci-app-tailscale_1.2.1_all.ipk
+        wget -P ./packages https://github.com/asvow/luci-app-tailscale/releases/download/v1.2.1/luci-i18n-tailscale-zh-cn_240929.38997_all.ipk
+
+
+
         
     - name: 编译
       id: compile
       run: |
         cd immortalwrt-imagebuilder-23.05.4-x86-64.Linux-x86_64
-        make image PACKAGES="qemu-ga luci-i18n-smartdns-zh-cn luci-app-openclash luci-app-ddns-go	luci-i18n-zerotier-zh-cn luci-i18n-ttyd-zh-cn luci-i18n-attendedsysupgrade-zh-cn luci-i18n-opkg-zh-cn luci-i18n-ddns-zh-cn ddns-scripts-dnspod luci-i18n-upnp-zh-cn luci-i18n-firewall-zh-cn luci-i18n-vlmcsd-zh-cn luci-i18n-arpbind-zh-cn luci-i18n-base-zh-cn luci-i18n-passwall-zh-cn ddns-scripts-cloudflare ddns-scripts_aliyun  luci-i18n-udpxy-zh-cn luci-i18n-watchcat-zh-cn bind-host luci-app-wechatpush luci-i18n-wechatpush-zh-cn lucky luci-app-lucky luci-i18n-lucky-zh-cn  v2dat v2ray-geoip v2ray-geosite mosdns luci-app-mosdns	luci-i18n-mosdns-zh-cn luci-i18n-wol-zh-cn luci-i18n-homeproxy-zh-cn"
+        make image PACKAGES="qemu-ga luci-i18n-smartdns-zh-cn luci-app-openclash luci-app-ddns-go	luci-i18n-zerotier-zh-cn luci-i18n-ttyd-zh-cn luci-i18n-attendedsysupgrade-zh-cn luci-i18n-opkg-zh-cn luci-i18n-ddns-zh-cn ddns-scripts-dnspod luci-i18n-upnp-zh-cn luci-i18n-firewall-zh-cn luci-i18n-vlmcsd-zh-cn luci-i18n-arpbind-zh-cn luci-i18n-base-zh-cn luci-i18n-passwall-zh-cn ddns-scripts-cloudflare ddns-scripts_aliyun  luci-i18n-udpxy-zh-cn luci-i18n-watchcat-zh-cn bind-host luci-app-wechatpush luci-i18n-wechatpush-zh-cn lucky luci-app-lucky luci-i18n-lucky-zh-cn  v2dat v2ray-geoip v2ray-geosite mosdns luci-app-mosdns	luci-i18n-mosdns-zh-cn luci-i18n-wol-zh-cn luci-i18n-homeproxy-zh-cn tailscale luci-i18n-tailscale-zh-cn"
         echo "FILE_DATE=_$(date +"%Y%m%d-%H%M")" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
