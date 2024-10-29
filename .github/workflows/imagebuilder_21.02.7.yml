@@ -68,9 +68,9 @@ jobs:
     - name: 添加非官方包
       run: |
         cd immortalwrt-imagebuilder-21.02.7-x86-64.Linux-x86_64
-        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.10.5/luci-app-lucky_2.1.1-1_all.ipk
-        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.10.5/luci-i18n-lucky-zh-cn_2.1.1-1_all.ipk
-        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.10.5/lucky_2.10.5_Openwrt_x86_64.ipk       
+        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.13.4/luci-app-lucky_2.1.1-1_all.ipk
+        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.13.4/luci-i18n-lucky-zh-cn_2.1.1-1_all.ipk
+        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.13.4/lucky_2.13.4_Openwrt_x86_64.ipk    
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.5.6/luci-app-wechatpush_3.5.6_all.ipk
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.5.6/luci-i18n-wechatpush-zh-cn_24.195.32270.071b978_all.ipk
         wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.3-2/mosdns_5.3.3-2_x86_64.ipk
