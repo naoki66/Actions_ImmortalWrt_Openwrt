@@ -4,7 +4,7 @@
    ➦openwrt主源码来自https://github.com/immortalwrt/immortalwrt </br>
    ➦luci-app-lucky源码来自 https://github.com/gdy666/luci-app-lucky</br>
    ➦luci-app-mosdns源码来自 https://github.com/sbwml/luci-app-mosdns </br>
-   ➦luci-app-wechatpush源码来自 https://github.com/sbwml/luci-app-mosdnshttps://github.com/tty228/luci-app-wechatpush </br>
+   ➦luci-app-wechatpush源码来自 https://github.com/tty228/luci-app-wechatpush </br>
  </br>
 
 首次编译：
