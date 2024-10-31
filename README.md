@@ -4,12 +4,13 @@
    ➦openwrt主源码来自https://github.com/immortalwrt/immortalwrt </br>
    ➦luci-app-lucky源码来自 https://github.com/gdy666/luci-app-lucky</br>
    ➦luci-app-mosdns源码来自 https://github.com/sbwml/luci-app-mosdns </br>
-
+   ➦luci-app-wechatpush源码来自 https://github.com/sbwml/luci-app-mosdnshttps://github.com/tty228/luci-app-wechatpush </br>
+ </br>
 
 首次编译：
 ```bash
-git clone https://github.com/coolsnowwolf/lede
-cd lede
+git clone  https://github.com/immortalwrt/immortalwrt 
+cd immortalwrt
 ./scripts/feeds update -a  && ./scripts/feeds install -a
 make menuconfig
 make download -j8
@@ -18,7 +19,7 @@ make V=s -j1
 
 二次编译：
 ```bash
-cd lede 
+cd immortalwrt 
 git pull  && ./scripts/feeds update -a  && ./scripts/feeds install -a 
 make defconfig && make download -j8
 make V=s -j$(nproc)
