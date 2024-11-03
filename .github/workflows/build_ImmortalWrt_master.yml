@@ -48,7 +48,7 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
-        echo "TIME1=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
+        echo "TIME0=$(date +"%Y-%m-%d %H:%M:%S")" >> $GITHUB_ENV
 
     - name: 克隆源代码
       working-directory: /workdir
@@ -93,14 +93,7 @@ jobs:
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
-        sed -i 's/KERNEL_PATCHVER:=5.15/KERNEL_PATCHVER:=6.1/g' target/linux/x86/Makefile
-
-    - name: SSH 开放 Actions
-      uses: P3TERX/ssh2actions@v1.0.0
-      if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
-      env:
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        ##sed -i 's/KERNEL_PATCHVER:=5.15/KERNEL_PATCHVER:=6.1/g' target/linux/x86/Makefile
 
     - name: 下载软件包
       id: package
@@ -139,6 +132,7 @@ jobs:
          cd openwrt/bin/targets/*/*
          rm -rf packages
          echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+         echo "TIME1=$(date +"%Y-%m-%d %H:%M:%S")" >> $GITHUB_ENV
          echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 上传firmware
@@ -155,7 +149,8 @@ jobs:
       run: |
         echo "release_tag=immortalwrt23.05-$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
         touch release.txt
-        echo " <a href="https://github.com/immortalwrt/immortalwrt">immortalwrt</a>更新记录:" >> release.txt
+        echo "从${{ env.TIME0 }}开始到${{ env.TIME1 }}编译完成！<br/>" >> release.txt
+        echo " <br/><a href="https://github.com/immortalwrt/immortalwrt">immortalwrt</a>更新记录:" >> release.txt
         git -C openwrt log -3 --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:"%cd<br/>更新内容: %s<br/>"  >> release.txt        
         echo " <br/><br/><a href="https://github.com/immortalwrt/packages">packages</a>更新记录:" >> release.txt
         git -C openwrt/feeds/packages log -3 --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:"%cd<br/>更新内容: %s<br/>"  >> release.txt        
@@ -189,8 +184,4 @@ jobs:
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.ACTIONS_TRIGGER_PAT }}
-       
-    - name: Pushplus推送通知
-      if: steps.tag.outputs.status == 'success' && !cancelled()
-      run: curl http://www.pushplus.plus/send -X POST -H "Content-Type:application/json" -d '{"title":"GitAction编译immortalwrt23.05-X64K6.1成功！","content":" 从${{ env.TIME1 }}开始到${{ env.TIME2 }}编译完成！","token":"${{ secrets.PUSHPLUS_TOKEN }}","webhook":"02","channel":"cp"}'
-
+ 
