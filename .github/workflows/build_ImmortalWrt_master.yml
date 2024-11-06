@@ -62,7 +62,7 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone $REPO_URL -b $REPO_BRANCH openwrt
+        git clone $REPO_URL -b $REPO_BRANCH openwrt --depth 1 
         ##git clone  https://github.com/gdy666/luci-app-lucky.git openwrt/package/lucky
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
