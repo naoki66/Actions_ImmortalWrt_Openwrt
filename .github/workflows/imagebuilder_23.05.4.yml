@@ -67,9 +67,9 @@ jobs:
     - name: 添加非官方包
       run: |
         cd immortalwrt-imagebuilder-23.05.4-x86-64.Linux-x86_64
-        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.13.4/luci-app-lucky_2.1.1-1_all.ipk
-        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.13.4/luci-i18n-lucky-zh-cn_2.1.1-1_all.ipk
-        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.13.4/lucky_2.13.4_Openwrt_x86_64.ipk
+        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.14.0/luci-app-lucky_2.1.1-1_all.ipk
+        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.14.0/luci-i18n-lucky-zh-cn_2.1.1-1_all.ipk
+        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.14.0/lucky_2.14.0_Openwrt_x86_64.ipk
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.5.6/luci-app-wechatpush_3.5.6_all.ipk
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.5.6/luci-i18n-wechatpush-zh-cn_24.195.32270.071b978_all.ipk
         wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.3-2/mosdns_5.3.3-2_x86_64.ipk
@@ -85,8 +85,7 @@ jobs:
       id: compile
       run: |
         cd immortalwrt-imagebuilder-23.05.4-x86-64.Linux-x86_64
-        make image PACKAGES="qemu-ga luci-i18n-smartdns-zh-cn luci-app-openclash luci-app-ddns-go	luci-i18n-zerotier-zh-cn luci-i18n-ttyd-zh-cn luci-i18n-attendedsysupgrade-zh-cn luci-i18n-opkg-zh-cn luci-i18n-ddns-zh-cn ddns-scripts-dnspod luci-i18n-upnp-zh-cn luci-i18n-firewall-zh-cn luci-i18n-vlmcsd-zh-cn luci-i18n-arpbind-zh-cn luci-i18n-base-zh-cn luci-i18n-passwall-zh-cn ddns-scripts-cloudflare ddns-scripts_aliyun  luci-i18n-udpxy-zh-cn luci-i18n-watchcat-zh-cn bind-host luci-app-wechatpush luci-i18n-wechatpush-zh-cn lucky luci-app-lucky luci-i18n-lucky-zh-cn  v2dat v2ray-geoip v2ray-geosite mosdns luci-app-mosdns	luci-i18n-mosdns-zh-cn luci-i18n-wol-zh-cn luci-i18n-homeproxy-zh-cn luci-proto-wireguard	"
-        echo "FILE_DATE=_$(date +"%Y%m%d-%H%M")" >> $GITHUB_ENV
+        make image PACKAGES="qemu-ga bind-host luci-i18n-smartdns-zh-cn luci-app-openclash luci-app-ddns-go luci-i18n-zerotier-zh-cn luci-i18n-ttyd-zh-cn luci-i18n-attendedsysupgrade-zh-cn luci-i18n-opkg-zh-cn luci-i18n-ddns-zh-cn ddns-scripts-dnspod luci-i18n-upnp-zh-cn luci-i18n-firewall-zh-cn luci-i18n-vlmcsd-zh-cn luci-i18n-arpbind-zh-cn luci-i18n-base-zh-cn luci-i18n-passwall-zh-cn ddns-scripts-cloudflare ddns-scripts_aliyun  luci-i18n-udpxy-zh-cn  luci-i18n-ddns-go-zh-cn luci-i18n-watchcat-zh-cn luci-app-wechatpush luci-i18n-wechatpush-zh-cn lucky luci-app-lucky luci-i18n-lucky-zh-cn v2dat v2ray-geoip v2ray-geosite mosdns luci-app-mosdns	luci-i18n-mosdns-zh-cn luci-i18n-wol-zh-cn luci-i18n-homeproxy-zh-cn luci-proto-wireguard"        echo "FILE_DATE=_$(date +"%Y%m%d-%H%M")" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 整理文件
