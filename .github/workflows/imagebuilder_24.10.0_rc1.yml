@@ -1,4 +1,4 @@
-name: imagebuilder编译master_SNAPSHOT
+name: imagebuilder编译24.10.0_rc1
 on: 
   repository_dispatch:
   workflow_dispatch:
@@ -50,26 +50,26 @@ jobs:
 
     - name: 下载imagebuilder源码
       run: |
-        wget https://downloads.immortalwrt.org/snapshots/targets/x86/64/immortalwrt-imagebuilder-x86-64.Linux-x86_64.tar.zst
-        tar -I zstd -x -f immortalwrt-imagebuilder-x86-64.Linux-x86_64.tar.zst
+        wget https://downloads.immortalwrt.org/releases/24.10.0-rc1/targets/x86/64/immortalwrt-imagebuilder-24.10.0-rc1-x86-64.Linux-x86_64.tar.zst
+        tar -I zstd -x -f immortalwrt-imagebuilder-24.10.0-rc1-x86-64.Linux-x86_64.tar.zst
         
 
     - name: 修改配置和编译文件
       run: |
-        cd immortalwrt-imagebuilder-x86-64.Linux-x86_64
+        cd immortalwrt-imagebuilder-24.10.0-rc1-x86-64.Linux-x86_64
         #sed -i 's/CONFIG_ISO_IMAGES=y/#CONFIG_ISO_IMAGES is not set/' .config
         sed -i 's/CONFIG_QCOW2_IMAGES=y/#CONFIG_QCOW2_IMAGES is not set/' .config
         sed -i 's/CONFIG_VDI_IMAGES=y/#CONFIG_VDI_IMAGES is not set/' .config
         sed -i 's/CONFIG_VMDK_IMAGES=y/#CONFIG_VDI_IMAGES is not set/' .config
         sed -i 's/CONFIG_VHDX_IMAGES=y/#CONFIG_VHDX_IMAGES is not set/' .config
-        sed -i 's/CONFIG_TARGET_ROOTFS_PARTSIZE=300/CONFIG_TARGET_ROOTFS_PARTSIZE=512/' .config
+        sed -i 's/CONFIG_TARGET_ROOTFS_PARTSIZE=300/CONFIG_TARGET_ROOTFS_PARTSIZE=1024/' .config
 
     - name: 添加非官方包
       run: |
-        cd immortalwrt-imagebuilder-x86-64.Linux-x86_64
-        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.10.5/luci-app-lucky_2.1.1-1_all.ipk
-        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.10.5/luci-i18n-lucky-zh-cn_2.1.1-1_all.ipk
-        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.10.5/lucky_2.10.5_Openwrt_x86_64.ipk
+        cd immortalwrt-imagebuilder-24.10.0-rc1-x86-64.Linux-x86_64
+        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.14.0/luci-app-lucky_2.1.1-1_all.ipk
+        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.14.0/luci-i18n-lucky-zh-cn_2.1.1-1_all.ipk
+        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.14.0/lucky_2.14.0_Openwrt_x86_64.ipk
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.5.6/luci-app-wechatpush_3.5.6_all.ipk
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.5.6/luci-i18n-wechatpush-zh-cn_24.195.32270.071b978_all.ipk
         wget -P ./packages https://github.com/sbwml/luci-app-mosdns/releases/download/v5.3.3-2/mosdns_5.3.3-2_x86_64.ipk
@@ -83,9 +83,8 @@ jobs:
     - name: 编译
       id: compile
       run: |
-        cd immortalwrt-imagebuilder-x86-64.Linux-x86_64
-        make image PACKAGES="luci qemu-ga luci-i18n-smartdns-zh-cn luci-app-openclash luci-app-ddns-go luci-i18n-zerotier-zh-cn luci-i18n-ttyd-zh-cn luci-i18n-attendedsysupgrade-zh-cn luci-i18n-opkg-zh-cn luci-i18n-ddns-zh-cn ddns-scripts-dnspod luci-i18n-upnp-zh-cn luci-i18n-firewall-zh-cn luci-i18n-vlmcsd-zh-cn luci-i18n-arpbind-zh-cn luci-i18n-base-zh-cn luci-i18n-passwall-zh-cn ddns-scripts-cloudflare ddns-scripts_aliyun  luci-i18n-udpxy-zh-cn luci-i18n-ddns-go-zh-cn luci-i18n-watchcat-zh-cn bind-host luci-app-wechatpush luci-i18n-wechatpush-zh-cn lucky luci-app-lucky luci-i18n-lucky-zh-cn luci-proto-wireguard"
-        echo "FILE_DATE=_$(date +"%Y%m%d-%H%M")" >> $GITHUB_ENV
+        cd immortalwrt-imagebuilder-24.10.0-rc1-x86-64.Linux-x86_64
+        make image PACKAGES="qemu-ga bind-host luci-i18n-smartdns-zh-cn luci-app-openclash luci-app-ddns-go luci-i18n-zerotier-zh-cn luci-i18n-ttyd-zh-cn luci-i18n-attendedsysupgrade-zh-cn luci-i18n-opkg-zh-cn luci-i18n-ddns-zh-cn ddns-scripts-dnspod luci-i18n-upnp-zh-cn luci-i18n-firewall-zh-cn luci-i18n-vlmcsd-zh-cn luci-i18n-arpbind-zh-cn luci-i18n-base-zh-cn luci-i18n-passwall-zh-cn ddns-scripts-cloudflare ddns-scripts_aliyun  luci-i18n-udpxy-zh-cn  luci-i18n-ddns-go-zh-cn luci-i18n-watchcat-zh-cn luci-app-wechatpush luci-i18n-wechatpush-zh-cn lucky luci-app-lucky luci-i18n-lucky-zh-cn v2dat v2ray-geoip v2ray-geosite mosdns luci-app-mosdns	luci-i18n-mosdns-zh-cn luci-i18n-wol-zh-cn luci-i18n-homeproxy-zh-cn luci-proto-wireguard"        echo "FILE_DATE=_$(date +"%Y%m%d-%H%M")" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 整理文件
