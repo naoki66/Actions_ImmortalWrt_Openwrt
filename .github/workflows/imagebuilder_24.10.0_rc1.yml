@@ -90,7 +90,7 @@ jobs:
     - name: 整理文件
       id: organize
       run: |
-        cd immortalwrt-imagebuilder-x86-64.Linux-x86_64/bin/targets/*/*
+        cd immortalwrt-imagebuilder-24.10.0-rc1-x86-64.Linux-x86_64/bin/targets/*/*
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
@@ -98,13 +98,13 @@ jobs:
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: immortalwrt-imagebuilder-x86-64.Linux-x86_64-${{ env.FILE_DATE }}
+        name: immortalwrt-imagebuilder-24.10.0-rc1-x86-64.Linux-x86_64-${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
         
     - name: 创建 release 标签
       id: tag
       run: |
-        echo "release_tag=imagebuilder-master-SNAPSHOT-${{ env.FILE_DATE }}" >> $GITHUB_OUTPUT
+        echo "release_tag=imagebuilder-24.10.0-rc1-x86-64-${{ env.FILE_DATE }}" >> $GITHUB_OUTPUT
         touch release.txt
         echo "TIME2=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
@@ -136,4 +136,4 @@ jobs:
                
     - name: Pushplus推送通知
       if: steps.tag.outputs.status == 'success' && !cancelled()
-      run: curl http://www.pushplus.plus/send -X POST -H "Content-Type:application/json" -d '{"title":"imagebuilder编译immortalwrt-master-SNAPSHOT成功！","content":" 从${{ env.TIME1 }}开始到${{ env.TIME2 }}编译完成！","token":"${{ secrets.PUSHPLUS_TOKEN }}","webhook":"02","channel":"cp"}'
+      run: curl http://www.pushplus.plus/send -X POST -H "Content-Type:application/json" -d '{"title":"imagebuilder编译immortalwrt-24.10.0-rc1-x86-64成功！","content":" 从${{ env.TIME1 }}开始到${{ env.TIME2 }}编译完成！","token":"${{ secrets.PUSHPLUS_TOKEN }}","webhook":"02","channel":"cp"}'
