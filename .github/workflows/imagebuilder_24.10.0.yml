@@ -1,4 +1,4 @@
-name: imagebuilder编译24.10.0_rc4
+name: imagebuilder编译24.10.0
 on: 
   repository_dispatch:
   workflow_dispatch:
