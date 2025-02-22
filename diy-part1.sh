@@ -14,5 +14,5 @@
 #sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 
 # Add a feed source
-echo 'src-git lucky https://github.com/gdy666/luci-app-lucky.git' >> feeds.conf.default
+#echo 'src-git lucky https://github.com/gdy666/luci-app-lucky.git' >> feeds.conf.default
 
