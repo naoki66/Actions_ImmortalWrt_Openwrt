@@ -100,7 +100,7 @@ jobs:
     - name: 创建 release 标签
       id: tag
       run: |
-        echo "release_tag=immortalwrt-imagebuilder-snapshots-x86-64-${{ env.FILE_DATE }}" >> $GITHUB_OUTPUT
+        echo "release_tag=imagebuilder-snapshots-x86-64-${{ env.FILE_DATE }}" >> $GITHUB_OUTPUT
         touch release.txt
         echo "TIME2=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
@@ -132,4 +132,4 @@ jobs:
                
     - name: Pushplus推送通知
       if: steps.tag.outputs.status == 'success' && !cancelled()
-      run: curl http://www.pushplus.plus/send -X POST -H "Content-Type:application/json" -d '{"title":"编译immortalwrt-imagebuilder-snapshots-x86_64成功！","content":" 从${{ env.TIME1 }}开始到${{ env.TIME2 }}编译完成！","token":"${{ secrets.PUSHPLUS_TOKEN }}","webhook":"02","channel":"cp"}'
+      run: curl http://www.pushplus.plus/send -X POST -H "Content-Type:application/json" -d '{"title":"编译imagebuilder-snapshots-x86_64成功！","content":" 从${{ env.TIME1 }}开始到${{ env.TIME2 }}编译完成！","token":"${{ secrets.PUSHPLUS_TOKEN }}","webhook":"02","channel":"cp"}'
