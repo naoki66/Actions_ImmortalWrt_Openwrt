@@ -80,23 +80,7 @@ jobs:
         wget -P ./packages https://github.com/xiaorouji/openwrt-passwall/releases/download/25.3.9-1/passwall_packages_ipk_x86_64.zip
         unzip ./packages/passwall_packages_ipk_x86_64.zip -d ./packages/
 
-    - name: 更新packages包
-      run: |
-        cd immortalwrt-imagebuilder-24.10.0-x86-64.Linux-x86_64    
-        opkg remove luci-i18n-wechatpush-zh-cn
-        opkg remove luci-app-wechatpush
-        opkg install ./packages/luci-app-wechatpush_3.6.6_all.ipk
-        opkg install ./packages/luci-i18n-wechatpush-zh-cn_25.086.52114.634609e_all.ipk
-        opkg remove luci-i18n-passwall-zh-cn
-        opkg remove luci-app-passwall
-        opkg install ./packages/luci-24.10_luci-app-passwall_25.3.9-r1_all.ipk
-        opkg install ./packages/luci-24.10_luci-i18n-passwall-zh-cn_25.067.58328.338d2ec_all.ipk 
-        opkg install ./packages/geoview_0.1.2-r1_x86_64.ipk
-        opkg install ./packages/naiveproxy_134.0.6998.39-r1_x86_64.ipk        
-        opkg install ./packages/sing-box_1.11.4-r1_x86_64.ipk
-        opkg install ./packages/xray-core_25.3.6-r1_x86_64.ipk
-        opkg install ./packages/xray-plugin_1.8.24-r1_x86_64.ipk
-        #opkg install ./packages/        
+   
         
     - name: 编译
       id: compile
