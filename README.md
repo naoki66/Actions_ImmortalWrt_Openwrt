@@ -5,6 +5,8 @@
    ➦luci-app-lucky源码来自 https://github.com/gdy666/luci-app-lucky</br>
    ➦luci-app-mosdns源码来自 https://github.com/sbwml/luci-app-mosdns </br>
    ➦luci-app-wechatpush源码来自 https://github.com/tty228/luci-app-wechatpush </br>
+   ➦passwall源码来自 https://github.com/xiaorouji/openwrt-passwall </br>
+
  </br>
 
 首次编译：
