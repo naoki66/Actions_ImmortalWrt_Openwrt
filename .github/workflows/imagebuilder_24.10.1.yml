@@ -75,8 +75,9 @@ jobs:
         wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.15.8/lucky_2.15.8_Openwrt_x86_64_wanji.ipk
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.6.8/luci-app-wechatpush_3.6.8_all.ipk
         wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.6.8/luci-i18n-wechatpush-zh-cn_25.089.39732.ed90c03_all.ipk
-        wget -P ./packages https://github.com/xiaorouji/openwrt-passwall/releases/download/25.4.10-1/luci-24.10_luci-app-passwall_25.4.10-r1_all.ipk
-        wget -P ./packages https://github.com/xiaorouji/openwrt-passwall/releases/download/25.4.10-1/luci-24.10_luci-i18n-passwall-zh-cn_25.100.41496.3281fc6_all.ipk
+        wget -P ./packages https://github.com/xiaorouji/openwrt-passwall/releases/download/25.4.20-1/luci-24.10_luci-app-passwall_25.4.20-r1_all.ipk
+        wget -P ./packages https://github.com/xiaorouji/openwrt-passwall/releases/download/25.4.20-1/luci-24.10_luci-i18n-passwall-zh-cn_25.110.26811.c4fea0f_all.ipk
+        wget -P ./packages https://github.com/SagerNet/sing-box/releases/download/v1.11.8/sing-box_1.11.8_openwrt_x86_64.ipk
         wget -P ./packages https://github.com/xiaorouji/openwrt-passwall/releases/download/25.4.10-1/passwall_packages_ipk_x86_64.zip
         unzip ./packages/passwall_packages_ipk_x86_64.zip -d ./packages/
         wget -P ./packages https://github.com/zfl9/chinadns-ng/releases/download/2025.03.27/chinadns-ng+wolfssl@x86_64-linux-musl@x86_64_v4@fast+lto
