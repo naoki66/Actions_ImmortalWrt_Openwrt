@@ -68,17 +68,20 @@ jobs:
     - name: 添加非官方包
       run: |
         cd immortalwrt-imagebuilder-21.02.7-x86-64.Linux-x86_64
-        wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.5.6/luci-app-wechatpush_3.5.6_all.ipk
-        wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.5.6/luci-i18n-wechatpush-zh-cn_24.195.32270.071b978_all.ipk
-        wget -P ./packages https://github.com/sirpdboy/luci-app-ddns-go/releases/download/v6.7.0/ddns-go_6.7.0-1_x86_64.ipk
-        wget -P ./packages https://github.com/sirpdboy/luci-app-ddns-go/releases/download/v6.7.0/luci-app-ddns-go_1.4.5_all.ipk
-        wget -P ./packages https://github.com/sirpdboy/luci-app-ddns-go/releases/download/v6.7.0/luci-i18n-ddns-go-zh-cn_git-24.100.44971-c6c0236_all.ipk      
+        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.15.8/luci-app-lucky_2.2.2-r1_all.ipk
+        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.15.8/luci-i18n-lucky-zh-cn_25.051.13443.e78d498_all.ipk
+        wget -P ./packages https://github.com/gdy666/luci-app-lucky/releases/download/v2.15.8/lucky_2.15.8_Openwrt_x86_64_wanji.ipk
+        wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.6.9/luci-app-wechatpush_3.6.9_all.ipk
+        wget -P ./packages https://github.com/tty228/luci-app-wechatpush/releases/download/v3.6.9/luci-i18n-wechatpush-zh-cn_25.089.39732.ed90c03_all.ipk
+        wget -P ./packages https://github.com/sirpdboy/luci-app-ddns-go/releases/download/v6.9.2/ddns-go_6.9.2-r11_x86_64.ipk
+        wget -P ./packages https://github.com/sirpdboy/luci-app-ddns-go/releases/download/v6.9.2/luci-app-ddns-go_1.5.3-r20250515_all.ipk
+        wget -P ./packages https://github.com/sirpdboy/luci-app-ddns-go/releases/download/v6.9.2/luci-app-ddns-go_1.5.3-r20250515_all.ipk      
 
     - name: 编译
       id: compile
       run: |
         cd immortalwrt-imagebuilder-21.02.7-x86-64.Linux-x86_64
-        make image PACKAGES="qemu-ga luci-i18n-smartdns-zh-cn luci-i18n-passwall-zh-cn luci-i18n-zerotier-zh-cn luci-i18n-ttyd-zh-cn luci-i18n-attendedsysupgrade-zh-cn luci-i18n-opkg-zh-cn luci-i18n-ddns-zh-cn ddns-scripts-dnspod luci-i18n-upnp-zh-cn luci-i18n-firewall-zh-cn luci-i18n-vlmcsd-zh-cn luci-i18n-arpbind-zh-cn luci-i18n-base-zh-cn   luci-i18n-filetransfer-zh-cn ddns-scripts-cloudflare ddns-scripts_aliyun  luci-i18n-udpxy-zh-cn luci-i18n-accesscontrol-zh-cn luci-i18n-watchcat-zh-cn bind-host luci-app-wechatpush luci-i18n-wechatpush-zh-cn luci-i18n-ddns-go-zh-cn luci-i18n-wireguard-zh-cn"
+        make image PACKAGES="qemu-ga luci-i18n-smartdns-zh-cn luci-i18n-passwall-zh-cn luci-i18n-zerotier-zh-cn luci-i18n-ttyd-zh-cn luci-i18n-attendedsysupgrade-zh-cn luci-i18n-opkg-zh-cn luci-i18n-ddns-zh-cn ddns-scripts-dnspod luci-i18n-upnp-zh-cn luci-i18n-firewall-zh-cn luci-i18n-vlmcsd-zh-cn luci-i18n-arpbind-zh-cn luci-i18n-base-zh-cn   luci-i18n-filetransfer-zh-cn ddns-scripts-cloudflare ddns-scripts_aliyun  luci-i18n-udpxy-zh-cn luci-i18n-accesscontrol-zh-cn luci-i18n-watchcat-zh-cn bind-host luci-app-wechatpush luci-i18n-wechatpush-zh-cn luci-i18n-ddns-go-zh-cn luci-i18n-wireguard-zh-cn luci-i18n-lucky-zh-cn"
         echo "FILE_DATE=_$(date +"%Y%m%d-%H%M")" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
