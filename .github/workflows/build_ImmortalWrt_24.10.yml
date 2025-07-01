@@ -22,7 +22,7 @@ on:
   - cron: "20  2 * * 2"
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
-  REPO_BRANCH: master
+  REPO_BRANCH: openwrt-24.10
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: x64.config
   DIY_P1_SH: diy-part1.sh
