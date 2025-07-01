@@ -12,7 +12,7 @@
 首次编译：
 ```bash
 export GOPROXY=https://goproxy.cn
-git clone  https://github.com/immortalwrt/immortalwrt 
+git clone -b openwrt-24.10 --single-branch --filter=blob:none https://github.com/immortalwrt/immortalwrt
 cd immortalwrt
 ./scripts/feeds update -a  && ./scripts/feeds install -a
 make menuconfig
